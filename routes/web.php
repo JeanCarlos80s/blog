@@ -4,9 +4,8 @@ Route::get('/test', function(){
 	dd(App\User::find(1)->profile->avatar);
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', ['uses' 		=> 'FrontEndController@index', 		'as' => 'index']);
+Route::get('/post/{slug}', ['uses' 	=> 'FrontEndController@singlePost', 'as' => 'post.single']);
 
 Auth::routes();
 
@@ -50,5 +49,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
 	Route::get('/user/profile',				['uses' => 'ProfilesController@index', 		'as' => 'user.profile']);
 	Route::get('/user/delete/{id}',			['uses' => 'UsersController@destroy', 		'as' => 'user.delete']);
 	Route::post('/user/profile/update',		['uses' => 'ProfilesController@update',		'as' => 'user.profile.update']);
+	
+	Route::get('/settings',					['uses' => 'SettingsController@index',		'as' => 'settings']);
+	Route::post('/settings/update',			['uses' => 'SettingsController@update',		'as' => 'settings.update']);
 });
 
